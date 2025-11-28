@@ -1,0 +1,28 @@
+---
+# Настройка firewall с ufw
+
+- name: Установка пакетов ufw
+  ansible.builtin.apt:
+    name: ufw
+    state: present
+    update_cache: yes
+
+- name: Входящий трафик запрещён
+  community.general.ufw:
+    direction: incoming
+    policy: deny
+
+- name: Трафик разрешен 
+  community.general.ufw:
+    direction: outgoing
+    policy: allow
+
+- name: Разрешить SSH
+  community.general.ufw:
+    rule: allow
+    port: "22"
+    proto: tcp
+
+- name: Включить ufw
+  community.general.ufw:
+    state: enabled

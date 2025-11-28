@@ -1,0 +1,26 @@
+---
+# Роль base_hardening
+
+- name: Настройка firewall
+  import_tasks: firewall.yml
+
+- name: SSH конфиг
+  import_tasks: ssh.yml
+
+- name: Учетные записи
+  import_tasks: accounts.yml
+
+- name: Аудит и логирование
+  import_tasks: audit.yml
+
+- name: Пакеты и сервисы
+  import_tasks: packages.yml
+
+- name: Обновления
+  import_tasks: updates.yml
+
+- name: Настройки времени
+  import_tasks: time.yml
+
+- name: Сетевые настройки (sysctl)
+  import_tasks: sysctl.yml
