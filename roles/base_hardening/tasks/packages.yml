@@ -1,0 +1,17 @@
+# Удаление небезопасных и устаревших сетевых сервисов
+
+- name: Удаление (telnet, rsh, tftp, ftp, talk, yp-tools)
+  ansible.builtin.apt:
+    name:
+      - telnet
+      - rsh-client
+      - rsh-redone-client
+      - tftp
+      - tftpd
+      - ftp
+      - talk
+      - talkd
+      - yp-tools
+    state: absent
+    purge: yes
+  ignore_errors: yes

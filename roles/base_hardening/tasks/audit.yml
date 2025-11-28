@@ -1,0 +1,51 @@
+---
+# Настройка auditd и правил
+
+- name: Установить пакеты 
+  ansible.builtin.apt:
+    name:
+      - auditd
+      - audispd-plugins
+    state: present
+
+- name: Проверить наличие дирректории 
+  ansible.builtin.file:
+    path: /var/log/audit
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: Развернуть правила аудита для PCI DSS
+  ansible.builtin.template:
+    src: audit-pci.rules.j2ф
+    dest: /etc/audit/rules.d/pci.rules
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Restart auditd
+
+- name: Ротация логов
+  ansible.builtin.copy:
+    dest: /etc/logrotate.d/audit
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      /var/log/audit/*.log {
+          daily
+          rotate 14
+          compress
+          missingok
+          notifempty
+          create 0600 root root
+          postrotate
+              /etc/init.d/auditd reload > /dev/null 2>&1 || true
+          endscript
+      }
+
+- name: Включить и запустить auditd
+  ansible.builtin.service:
+    name: auditd
+    state: started
+    enabled: yes

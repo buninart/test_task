@@ -5,3 +5,13 @@
   ansible.builtin.service:
     name: ssh
     state: restarted
+
+- name: Restart auditd
+  ansible.builtin.service:
+    name: auditd
+    state: restarted
+
+- name: Restart chrony
+  ansible.builtin.service:
+    name: chrony
+    state: restarted

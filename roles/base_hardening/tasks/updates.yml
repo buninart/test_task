@@ -1,0 +1,19 @@
+---
+# Настройка автоматической установки обновлений безопасности
+
+- name: Установить пакеты обновлений
+  ansible.builtin.apt:
+    name:
+      - unattended-upgrades
+      - update-notifier-common
+    state: present
+
+- name: Включить автоматическую установку обновлений
+  ansible.builtin.copy:
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      APT::Periodic::Update-Package-Lists "1";
+      APT::Periodic::Unattended-Upgrade "1";
