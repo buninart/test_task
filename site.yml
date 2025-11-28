@@ -1,0 +1,12 @@
+---
+- name: Усиление PCI DSS
+  hosts: all
+  become: true
+  roles:
+    - base_hardening
+
+- name: Настройки хоста
+  hosts: appservers
+  become: true
+  roles:
+    - app_role
