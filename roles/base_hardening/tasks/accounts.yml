@@ -1,0 +1,27 @@
+---
+# Управление учётными записями
+
+- name: Заблокировать неиспользуемые системные аккаунты
+  ansible.builtin.user:
+    name: "{{ item }}"
+    password_lock: yes
+    shell: /usr/sbin/nologin
+  loop:
+    - games
+    - irc
+    - lp
+    - news
+    - uucp
+    - proxy
+  ignore_errors: yes  # если такого пользователя нет
+
+- name: Проверить наличие пользователей с пустыми паролями
+  ansible.builtin.command: >
+    awk -F: '($2 == "" ) { print $1 }' /etc/shadow
+  register: empty_pass_users
+  changed_when: false
+
+- name: Зафейлить плейбук, если есть пользователи с пустыми паролями
+  ansible.builtin.fail:
+    msg: "Обнаружены пользователи с пустыми паролями: {{ empty_pass_users.stdout }}"
+  when: empty_pass_users.stdout != ""

@@ -1,0 +1,14 @@
+---
+# Настройка сети через sysctl
+
+- name: Развернуть конфигурацию sysctl для PCI DSS
+  ansible.builtin.template:
+    src: 99-pci-hardening.conf.j2
+    dest: /etc/sysctl.d/99-pci-hardening.conf
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Применить sysctl
+  ansible.builtin.command: sysctl --system
+  changed_when: false
