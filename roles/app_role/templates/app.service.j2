@@ -1,0 +1,12 @@
+[Unit]
+Description=Приложение для демонстрации
+After=network.target
+
+[Service]
+User=appuser
+Group=appuser
+WorkingDirectory=/var/lib/app
+ExecStart=/bin/true  # Имитация старта приложения
+
+[Install]
+WantedBy=multi-user.target

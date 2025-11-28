@@ -1,2 +1,55 @@
 ---
-# Entry point for app_role role
+# Задачи для настройки приложения
+
+- name: Создать пользователя appuser
+  ansible.builtin.user:
+    name: appuser
+    shell: /usr/sbin/nologin
+    create_home: yes
+    state: present
+
+- name: Создать директорию /var/lib/app/
+  ansible.builtin.file:
+    path: /var/lib/app/
+    state: directory
+    owner: appuser
+    group: appuser
+    mode: "0755"
+
+- name: Создать директорию /var/log/app/
+  ansible.builtin.file:
+    path: /var/log/app/
+    state: directory
+    owner: appuser
+    group: appuser
+    mode: "0755"
+
+- name: Создать директорию /etc/app/
+  ansible.builtin.file:
+    path: /etc/app/
+    state: directory
+    owner: appuser
+    group: appuser
+    mode: "0755"
+
+- name: Создать конфиг
+  ansible.builtin.copy:
+    dest: /etc/app/app.conf
+    content: |
+      [app]
+      debug = true
+    owner: appuser
+    group: appuser
+    mode: "0644"
+
+- name: Открыть порт 8080 для ufw
+  community.general.ufw:
+    rule: allow
+    port: "8080"
+    proto: tcp
+
+- name: Открыть порт 9090 для тестов ufw
+  community.general.ufw:
+    rule: allow
+    port: "9090"
+    proto: tcp

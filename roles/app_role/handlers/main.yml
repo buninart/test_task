@@ -1,2 +1,8 @@
 ---
-# Handlers for app_role role
+# Хэндлеры для app_role
+
+- name: Перезапустить приложение
+  ansible.builtin.systemd:
+    name: app.service
+    state: restarted
+    enabled: yes
