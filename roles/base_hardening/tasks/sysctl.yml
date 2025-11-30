@@ -3,8 +3,8 @@
 
 - name: Развернуть конфигурацию sysctl для PCI DSS
   ansible.builtin.template:
-    src: 99-pci-hardening.conf.j2
-    dest: /etc/sysctl.d/99-pci-hardening.conf
+    src: pci.conf.j2
+    dest: /etc/sysctl.d/pci.conf
     owner: root
     group: root
     mode: "0644"

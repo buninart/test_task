@@ -18,7 +18,7 @@
 
 - name: Развернуть правила аудита для PCI DSS
   ansible.builtin.template:
-    src: audit-pci.rules.j2ф
+    src: audit-pci.rules.j2
     dest: /etc/audit/rules.d/pci.rules
     owner: root
     group: root
